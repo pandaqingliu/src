@@ -1,0 +1,288 @@
+#!/usr/bin/env sh
+# 指定使用sh解释器来执行脚本
+
+##############################################################################
+##
+##  Gradle start up script for UN*X
+##
+##############################################################################
+# 脚本注释，说明这是Gradle的启动脚本，适用于类Unix系统
+
+# Attempt to set APP_HOME
+# 尝试设置APP_HOME变量
+# Resolve links: $0 may be a link
+# 解析符号链接，$0可能是符号链接
+PRG="$0"
+# 将当前脚本的路径赋值给PRG变量
+# Need this for relative symlinks.
+# 需要这个来处理相对符号链接
+while [ -h "$PRG" ] ; do
+    # 当PRG是一个符号链接时，循环解析
+    ls=`ls -ld "$PRG"`
+    # 获取PRG的详细信息
+    link=`expr "$ls" : '.*-> \(.*\)$'`
+    # 提取链接的目标路径
+    if expr "$link" : '/.*' > /dev/null; then
+        # 如果链接是绝对路径
+        PRG="$link"
+        # 直接赋值给PRG
+    else
+        # 如果链接是相对路径
+        PRG=`dirname "$PRG"`"/$link"
+        # 将相对路径转换为绝对路径
+    fi
+done
+SAVED="`pwd`"
+# 保存当前工作目录
+cd "`dirname \"$PRG\"`/" >/dev/null
+# 切换到PRG所在的目录
+APP_HOME="`pwd -P`"
+# 获取PRG所在目录的绝对路径，并赋值给APP_HOME
+cd "$SAVED" >/dev/null
+# 切换回原来的目录
+
+APP_NAME="Gradle"
+# 设置应用名称为Gradle
+APP_BASE_NAME=`basename "$0"`
+# 获取脚本的文件名，不带路径
+
+# Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
+# 在这里添加默认的JVM选项。你也可以使用JAVA_OPTS和GRADLE_OPTS传递JVM选项给这个脚本
+DEFAULT_JVM_OPTS=""
+
+# Use the maximum available, or set MAX_FD != -1 to use that value.
+# 使用最大可用的文件描述符，或者设置MAX_FD != -1来使用指定的值
+MAX_FD="maximum"
+
+warn () {
+# 定义warn函数，用于输出警告信息
+    echo "$*"
+# 输出传入的参数
+}
+
+die () {
+# 定义die函数，用于输出错误信息并退出脚本
+    echo
+# 输出空行
+    echo "$*"
+# 输出传入的参数
+    echo
+# 输出空行
+    exit 1
+# 退出脚本，状态码为1
+}
+
+# OS specific support (must be 'true' or 'false').
+# 操作系统特定的支持（必须是'true'或'false'）
+cygwin=false
+# 初始化cygwin变量为false
+msys=false
+# 初始化msys变量为false
+darwin=false
+# 初始化darwin变量为false
+nonstop=false
+# 初始化nonstop变量为false
+case "`uname`" in
+# 根据uname命令的输出进行匹配
+  CYGWIN* )
+# 如果输出以CYGWIN开头
+    cygwin=true
+# 设置cygwin变量为true
+    ;;
+  Darwin* )
+# 如果输出以Darwin开头
+    darwin=true
+# 设置darwin变量为true
+    ;;
+  MINGW* )
+# 如果输出以MINGW开头
+    msys=true
+# 设置msys变量为true
+    ;;
+  NONSTOP* )
+# 如果输出以NONSTOP开头
+    nonstop=true
+# 设置nonstop变量为true
+    ;;
+esac
+
+CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
+# 设置CLASSPATH变量，指向gradle-wrapper.jar
+
+# Determine the Java command to use to start the JVM.
+# 确定用于启动JVM的Java命令
+if [ -n "$JAVA_HOME" ] ; then
+# 如果JAVA_HOME环境变量不为空
+    if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
+# 如果JAVA_HOME/jre/sh/java存在且可执行
+        # IBM's JDK on AIX uses strange locations for the executables
+        # IBM的JDK在AIX上使用奇怪的位置来存放可执行文件
+        JAVACMD="$JAVA_HOME/jre/sh/java"
+# 设置JAVACMD变量为JAVA_HOME/jre/sh/java
+    else
+# 否则
+        JAVACMD="$JAVA_HOME/bin/java"
+# 设置JAVACMD变量为JAVA_HOME/bin/java
+    fi
+    if [ ! -x "$JAVACMD" ] ; then
+# 如果JAVACMD不可执行
+        die "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME
+
+Please set the JAVA_HOME variable in your environment to match the
+location of your Java installation."
+# 输出错误信息并退出脚本
+    fi
+else
+# 如果JAVA_HOME环境变量为空
+    JAVACMD="java"
+# 设置JAVACMD变量为java
+    which java >/dev/null 2>&1 || die "ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
+
+Please set the JAVA_HOME variable in your environment to match the
+location of your Java installation."
+# 检查PATH中是否有java命令，如果没有则输出错误信息并退出脚本
+fi
+
+# Increase the maximum file descriptors if we can.
+# 如果可以的话，增加最大文件描述符数量
+if [ "$cygwin" = "false" -a "$darwin" = "false" -a "$nonstop" = "false" ] ; then
+# 如果不是cygwin、darwin或nonstop
+    MAX_FD_LIMIT=`ulimit -H -n`
+# 获取硬限制的最大文件描述符数量
+    if [ $? -eq 0 ] ; then
+# 如果获取成功
+        if [ "$MAX_FD" = "maximum" -o "$MAX_FD" = "max" ] ; then
+# 如果MAX_FD设置为maximum或max
+            MAX_FD="$MAX_FD_LIMIT"
+# 将MAX_FD设置为硬限制的最大文件描述符数量
+        fi
+        ulimit -n $MAX_FD
+# 设置最大文件描述符数量
+        if [ $? -ne 0 ] ; then
+# 如果设置失败
+            warn "Could not set maximum file descriptor limit: $MAX_FD"
+# 输出警告信息
+        fi
+    else
+# 如果获取失败
+        warn "Could not query maximum file descriptor limit: $MAX_FD_LIMIT"
+# 输出警告信息
+    fi
+fi
+
+# For Darwin, add options to specify how the application appears in the dock
+# 对于Darwin，添加选项来指定应用程序在Dock中的显示方式
+if $darwin; then
+# 如果是Darwin
+    GRADLE_OPTS="$GRADLE_OPTS \"-Xdock:name=$APP_NAME\" \"-Xdock:icon=$APP_HOME/media/gradle.icns\""
+# 设置GRADLE_OPTS变量，添加Dock显示选项
+fi
+
+# For Cygwin, switch paths to Windows format before running java
+# 对于Cygwin，在运行java之前将路径转换为Windows格式
+if $cygwin ; then
+# 如果是Cygwin
+    APP_HOME=`cygpath --path --mixed "$APP_HOME"`
+# 将APP_HOME转换为混合格式的Windows路径
+    CLASSPATH=`cygpath --path --mixed "$CLASSPATH"`
+# 将CLASSPATH转换为混合格式的Windows路径
+    JAVACMD=`cygpath --unix "$JAVACMD"`
+# 将JAVACMD转换为Unix格式的路径
+
+    # We build the pattern for arguments to be converted via cygpath
+    # 我们构建一个模式来匹配需要通过cygpath转换的参数
+    ROOTDIRSRAW=`find -L / -maxdepth 1 -mindepth 1 -type d 2>/dev/null`
+# 查找根目录下的所有子目录，并忽略错误
+    SEP=""
+# 初始化分隔符为空字符串
+    for dir in $ROOTDIRSRAW ; do
+# 遍历所有子目录
+        ROOTDIRS="$ROOTDIRS$SEP$dir"
+# 将子目录添加到ROOTDIRS变量中
+        SEP="|"
+# 设置分隔符为|
+    done
+    OURCYGPATTERN="(^($ROOTDIRS))"
+# 构建cygpath的模式
+    # Add a user-defined pattern to the cygpath arguments
+    # 添加用户自定义的模式到cygpath参数中
+    if [ "$GRADLE_CYGPATTERN" != "" ] ; then
+# 如果GRADLE_CYGPATTERN不为空
+        OURCYGPATTERN="$OURCYGPATTERN|($GRADLE_CYGPATTERN)"
+# 将用户自定义的模式添加到OURCYGPATTERN中
+    fi
+    # Now convert the arguments - kludge to limit ourselves to /bin/sh
+    # 现在转换参数 - 限制我们使用/bin/sh
+    i=0
+# 初始化计数器i为0
+    for arg in "$@" ; do
+# 遍历所有传入的参数
+        CHECK=`echo "$arg"|egrep -c "$OURCYGPATTERN" -`
+# 检查参数是否匹配OURCYGPATTERN
+        CHECK2=`echo "$arg"|egrep -c "^-"`                                 ### Determine if an option
+# 检查参数是否以-开头，即是否为选项
+
+        if [ $CHECK -ne 0 ] && [ $CHECK2 -eq 0 ] ; then                    ### Added a condition
+# 如果参数匹配OURCYGPATTERN且不是选项
+            eval `echo args$i`=`cygpath --path --ignore --mixed "$arg"`
+# 将参数转换为混合格式的Windows路径
+        else
+# 否则
+            eval `echo args$i`="\"$arg\""
+# 直接将参数赋值给args变量
+        fi
+        i=$((i+1))
+# 计数器i加1
+    done
+    case $i in
+# 根据i的值进行匹配
+        (0) set -- ;;
+# 如果i为0，不设置任何参数
+        (1) set -- "$args0" ;;
+# 如果i为1，设置一个参数
+        (2) set -- "$args0" "$args1" ;;
+# 如果i为2，设置两个参数
+        (3) set -- "$args0" "$args1" "$args2" ;;
+# 如果i为3，设置三个参数
+        (4) set -- "$args0" "$args1" "$args2" "$args3" ;;
+# 如果i为4，设置四个参数
+        (5) set -- "$args0" "$args1" "$args2" "$args3" "$args4" ;;
+# 如果i为5，设置五个参数
+        (6) set -- "$args0" "$args1" "$args2" "$args3" "$args4" "$args5" ;;
+# 如果i为6，设置六个参数
+        (7) set -- "$args0" "$args1" "$args2" "$args3" "$args4" "$args5" "$args6" ;;
+# 如果i为7，设置七个参数
+        (8) set -- "$args0" "$args1" "$args2" "$args3" "$args4" "$args5" "$args6" "$args7" ;;
+# 如果i为8，设置八个参数
+        (9) set -- "$args0" "$args1" "$args2" "$args3" "$args4" "$args5" "$args6" "$args7" "$args8" ;;
+# 如果i为9，设置九个参数
+    esac
+fi
+
+# Escape application args
+# 转义应用程序参数
+save () {
+# 定义save函数，用于转义参数
+    for i do printf %s\\n "$i" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/' \\\\/" ; done
+# 遍历所有参数，进行转义
+    echo " "
+# 输出空格
+}
+APP_ARGS=$(save "$@")
+# 调用save函数，转义所有传入的参数，并赋值给APP_ARGS
+
+# Collect all arguments for the java command, following the shell quoting and substitution rules
+# 收集所有传递给java命令的参数，遵循shell的引用和替换规则
+eval set -- $DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS "\"-Dorg.gradle.appname=$APP_BASE_NAME\"" -classpath "\"$CLASSPATH\"" org.gradle.wrapper.GradleWrapperMain "$APP_ARGS"
+# 设置所有参数，包括默认的JVM选项、用户定义的JVM选项、Gradle选项、应用程序名称、类路径和主类
+
+# by default we should be in the correct project dir, but when run from Finder on Mac, the cwd is wrong
+# 默认情况下，我们应该在正确的项目目录中，但如果从Mac的Finder运行，当前工作目录可能是错误的
+if [ "$(uname)" = "Darwin" ] && [ "$HOME" = "$PWD" ]; then
+# 如果是Darwin且当前工作目录是用户的主目录
+  cd "$(dirname "$0")"
+# 切换到脚本所在的目录
+fi
+
+exec "$JAVACMD" "$@"
+# 执行java命令，传递所有参数
