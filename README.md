@@ -1,2 +1,5 @@
-# src
-可用的资源分享
+# CatVodSpider
+
+### Based on CatVod
+
+https://github.com/CatVodTVOfficial/CatVodTVSpider
