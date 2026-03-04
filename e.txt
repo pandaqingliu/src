@@ -1,5 +1,5 @@
 {
-  "spider": "/extension_spider.jar",
+  "spider": "https://ghproxy.net/https://raw.githubusercontent.com/pandaqingliu/src/main/extension_spider.jar",
   "lives": [
     {
       "name": "电视直播",
