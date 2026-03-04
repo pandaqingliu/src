@@ -1,5 +1,5 @@
 {
-  "spider": "https://www.qlnav.com/src/extension_spider.jar",
+  "spider": "/src/extension_spider.jar",
   "lives": [
     {
       "name": "电视直播",
@@ -1299,4 +1299,5 @@
     "cms.qdwght.com"
   ],
   "wallpaper": "https://bing.ee123.net/img/4k"
+
 }
