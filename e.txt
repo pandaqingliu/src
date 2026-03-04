@@ -1,5 +1,5 @@
 {
-  "spider": "/src/extension_spider.jar",
+  "spider": "/extension_spider.jar",
   "lives": [
     {
       "name": "电视直播",
@@ -1301,3 +1301,4 @@
   "wallpaper": "https://bing.ee123.net/img/4k"
 
 }
+
